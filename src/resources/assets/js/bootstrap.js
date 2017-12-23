@@ -1,6 +1,6 @@
 
 window._ = require('lodash');
-
+window.moment = require('moment');
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -13,6 +13,50 @@ try {
     require('bootstrap-sass');
 } catch (e) {}
 
+window.Vue = require('vue');
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+
+window.Cookie = require('js-cookie');
+Vue.http.interceptors.push((request, next) => {
+    window.app.loading = true;
+    next(()=> {
+    window.app.loading = false;
+    });
+});
+Vue.http.interceptors.push((request, next) => {
+    request.headers.set('X-CSRF-TOKEN', Laravel.csrfToken);
+    next();
+});
+
+Vue.http.interceptors.push((request, next) => {
+    window.app.loading = true;
+    next(()=> {
+    window.app.loading = false;
+    });
+});
+
+Object.assign = Object.assign || _.assign
+
+function tips(type, msg) {
+    $('.alert-'+type).text(msg).fadeTo(1000, 1).slideUp(2000, function() {
+        $("#alert").slideUp(500);
+    });
+}
+
+Vue.http.interceptors.push((request, next) => {
+    var alert = request.params.alert;
+    delete request.params.alert;
+    next((response)=> {
+        if (alert) {
+            var type = response.ok ? 'success': 'warning';
+            tips(type, alert + (response.ok ? '成功' : '失败'));
+        }
+        if (response.status == 403) {
+            tips('warning', '权限不足')
+        }
+    });
+});
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -36,6 +80,7 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

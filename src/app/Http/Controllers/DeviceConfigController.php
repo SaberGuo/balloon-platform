@@ -8,6 +8,13 @@ use App\DeviceConfig;
 class DeviceConfigController extends Controller
 {
     static $model = \App\DeviceConfig::class;
+    static $permissions = [
+    'all' => ['sys_w'],
+    'index' => ['app_r','sys_r'],
+    'show' => ['app_r','sys_r'],
+    'store' =>['app_w','sys_w']
+    ];
+
     /**
      * Display a listing of the resource.
      *

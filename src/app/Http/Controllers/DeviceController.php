@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Device;
 
 class DeviceController extends Controller
 {
   //
   static $model = \App\Device::class;
+
+  static $permissions = [
+    'all' => ['sys_w'],
+    'index' => ['app_r','sys_r'],
+    'show' => ['app_r','sys_r'],
+    'store'=>['sys_w']
+    ];
+
   /**
    * Display a listing of the resource.
    *

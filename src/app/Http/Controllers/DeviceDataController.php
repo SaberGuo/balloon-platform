@@ -10,6 +10,11 @@ class DeviceDataController extends Controller
 {
     //
     static $model = \App\DeviceData::class;
+
+    static $permissions = [
+      'index' => ['app_r','sys_r'],
+      ];
+
     /**
      * Display a listing of the resource.
      *

@@ -13,6 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
+Route::resource('device', 'DeviceController', ['only' => [
+    'index', 'show', 'store', 'update', 'destroy'
+]]);
+
+Route::resource('device/{device}/data', 'DeviceDataController', ['only' => [
+    'index'
+]]);
+
+Route::resource('device/{device}/config', 'DeviceConfigController', ['only' => [
+    'index', 'show', 'store', 'update'
+]]);
