@@ -17,24 +17,24 @@
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
         "vue": "^2.5.7"
-
     },
     "dependencies": {
-      "bootbox": "^4.4.0",
-      "v-img": "0.0.4",
-      "vue-amap": "^0.1.6",
-      "vue-awesome-swiper": "^2.5.4",
-      "vue-datepicker": "^1.3.0",
-      "vue-easy-slider": "^3.1.1",
-      "vue-highcharts": "0.0.9",
-      "vue-images": "^1.0.9",
-      "vue-loading-spinner": "^1.0.7",
-      "vue-resource": "^1.2.0",
-      "vue-router": "^2.2.1",
-      "vue-spinner": "^1.0.2",
-      "vue2-dropzone": "^2.3.4",
-      "font-awesome": "^4.7.0",
-      "highcharts": "^5.0.10",
-      "js-cookie": "^2.1.4"
+        "bootbox": "^4.4.0",
+        "font-awesome": "^4.7.0",
+        "highcharts": "^5.0.10",
+        "js-cookie": "^2.1.4",
+        "v-img": "0.0.4",
+        "vue-amap": "^0.1.6",
+        "vue-awesome-swiper": "^2.5.4",
+        "vue-baidu-map": "^0.20.0",
+        "vue-datepicker": "^1.3.0",
+        "vue-easy-slider": "^3.1.1",
+        "vue-highcharts": "0.0.9",
+        "vue-images": "^1.0.9",
+        "vue-loading-spinner": "^1.0.7",
+        "vue-resource": "^1.2.0",
+        "vue-router": "^2.2.1",
+        "vue-spinner": "^1.0.2",
+        "vue2-dropzone": "^2.3.4"
     }
 }

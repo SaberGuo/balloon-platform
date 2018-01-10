@@ -8,14 +8,19 @@
 require('./bootstrap');
 import VueHighcharts from 'vue-highcharts';
 import highcharts from 'highcharts';
-import VueRouter from 'vue-router'
-import routes from './routes'
+import VueRouter from 'vue-router';
+import routes from './routes';
 import AMap from 'vue-amap';
-import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import BaiduMap from 'vue-baidu-map';
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 import VueImg from 'v-img';
 
 
 
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+  ak: 'upgAVMAni6rNgp1bM0xXU6LbCEg1lwrn'
+})
 
 Vue.use(AMap);
 Vue.use(VueImg);
