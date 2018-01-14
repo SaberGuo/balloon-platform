@@ -2,10 +2,10 @@
     <div>
     <a style="float:right;" @click="load()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 刷新</a>
     <div id="demoComponent" class="demo-component" style="height: 540px;">
-      <baidu-map class="bm-view" :zoom="zoom" :center="center" :scroll-wheel-zoom="true">
+      <baidu-map class="map" :zoom="zoom" :center="center" :scroll-wheel-zoom="true">
         <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
         <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
-        <bm-navigation anchor="BMAP_ANCHOR_TOP_LEFT"></bm-navigation>
+        <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_LEFT"></bm-navigation>
         <bm-marker v-for="marker in markers" :position="marker.position" :click="marker.events.click" :title="marker.title" :dragging="marker.draggable"></bm-marker>
       </baidu-map>
 
@@ -35,7 +35,7 @@ export default {
   created: function () {
     this.load();
     let that  = this;
-    this.intervalLoad = setInterval(function(){that.load();}, 60);
+    this.intervalLoad = setInterval(function(){that.load();}, 60000);
   },
   watch: {
     '$route': 'load',
@@ -89,3 +89,10 @@ export default {
   }
 };
 </script>
+<style>
+/* 地图容器必须设置宽和高属性 */
+.map {
+  width: auto;
+  height: 540px;
+}
+</style>

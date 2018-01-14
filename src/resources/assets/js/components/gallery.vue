@@ -8,7 +8,7 @@
           <span class="dot"></span>
           <div v-for="image in gallery.images" class="col-xs-12 col-md-6 col-lg-3">
             <div class="thumbnail">
-              <img v-img:group :src="'http://thc-platfrom-storage.b0.upaiyun.com' + image.value" alt="alt" >
+              <img v-img:group :src="image.value" alt="alt" >
               <div><span>{{image.ts}}</span><span style="float: right;" @click="download" ><img height="16px" width="16px" src="/image/dl.png"></span></div>
             </div>
           </div>
