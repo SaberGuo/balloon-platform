@@ -25,7 +25,6 @@ function data2lists (device, data) {
             v.data = _.orderBy(v.data, ['ts'], ['desc']);
         }
     })
-    console.log(keys);
     return keys;
 };
 export default {
@@ -40,7 +39,6 @@ export default {
         var requests = _.map(devices, function (device) {
             var uri = '/api/device/'+device.id+'/data';
             return Vue.http.get(uri, options).then(function (res) {
-                console.log(res.body);
                 return _.values(data2lists(device, res.body));
             });
         })

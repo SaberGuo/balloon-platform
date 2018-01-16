@@ -6,7 +6,8 @@
         <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
         <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
         <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_LEFT"></bm-navigation>
-        <bm-marker v-for="marker in markers" :position="marker.position" :click="marker.events.click" :title="marker.title" :dragging="marker.draggable"></bm-marker>
+        <bm-marker v-for="marker in markers" :position="marker.position" @click="marker.events.click" :title="marker.title" :dragging="marker.draggable"></bm-marker>
+        <bm-polyline v-for="path in pathes" :path="path.datas" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2"></bm-polyline>
       </baidu-map>
 
 <!--         <button type="button" name="button" v-on:click="toggleVisible">toggle first marker</button>
@@ -19,6 +20,7 @@
 </template>
 <script >
 import Vue from "vue";
+import api from '../api';
 var bus = new Vue();
 export default {
 
@@ -28,7 +30,8 @@ export default {
       // center: [121.5273285, 31.21515044],
       center: {lng:116.405285,lat:39.904989},
       markers: [
-
+      ],
+      pathes: [
       ]
     };
   },
@@ -59,6 +62,29 @@ export default {
             title: "名称："+v.name+"\nsn:"+v.sn+"\n经度："+v.lon+"\n纬度："+v.lat+"\n高度:"+v.alt,
           };
         });
+        var query = {
+          start_at: moment().subtract(7,'day').format('YYYY-MM-DD'),
+          end_at: moment().add(1,'day').format('YYYY-MM-DD'),
+          limit: 10000,
+        };
+        this.pathes = _.map(devices, function(v){
+          var pDatas = [];
+          api.getDeviceData(v , query, function (err, data) {
+            var lons = _.last(_.filter(data, {type:'lon'})).data;
+            var lats = _.last(_.filter(data, {type:'lat'})).data;
+            
+            for(var i=0; i<lons.length;++i){
+              pDatas.push({lng: lons[i].value, lat: lats[i].value});
+            }
+
+          });
+
+          console.log(pDatas);
+          return {
+            datas: pDatas
+          };
+        });
+
         // self.center = [stations.items[0].lon,stations.items[0].lat];
       })
     },
