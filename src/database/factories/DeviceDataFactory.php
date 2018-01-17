@@ -17,7 +17,7 @@ $factory->define(App\DeviceData::class, function (Faker $faker) {
     $key = 't_'.$faker->numberBetween(1, 1);
     $data = [
         'ts' => $faker->dateTimeThisMonth,
-        'data' => ['lon' => [ 'value' => $faker->numberBetween(1, 100)],'lat'=>['value'=>$faker->numberBetween(42,44)]],
+        'data' => ['lon' => [ 'value' => $faker->randomFloat(2, 112, 114)],'lat'=>['value'=>$faker->randomFloat(2,22,24)]],
         'device_config_id' => 3,
         'device_id' => 2,
     ];

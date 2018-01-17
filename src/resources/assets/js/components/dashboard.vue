@@ -17,12 +17,14 @@
             <th>数值</th>
             <th>单位</th>
             <th>描述</th>
+            <th>时间</th>
           </tr>
           <tr v-for="data in datas">
              <td>{{data.name}}</td>
              <td>{{data.value}}</td>
              <td>{{data.unit}}</td>
              <td>{{data.desc}}</td>
+             <td>{{data.ts}}</td>
          </tr>
        </tbody>
      </table>

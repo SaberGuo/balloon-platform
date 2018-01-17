@@ -1,13 +1,14 @@
 <template>
     <div>
-    <a style="float:right;" @click="load()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 刷新</a>
+      <button style="float:right; margin-bottom:10px;" type="submit" @click.prevent="load()" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 刷新</button>
+    <!--<a style="float:right;" @click="load()"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> 刷新</a>-->
     <div id="demoComponent" class="demo-component" style="height: 540px;">
       <baidu-map class="map" :zoom="zoom" :center="center" :scroll-wheel-zoom="true">
         <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
         <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
         <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_LEFT"></bm-navigation>
         <bm-marker v-for="marker in markers" :position="marker.position" @click="marker.events.click" :title="marker.title" :dragging="marker.draggable"></bm-marker>
-        <bm-polyline v-for="path in pathes" :path="path.datas" stroke-color="blue" :stroke-opacity="0.5" :stroke-weight="2"></bm-polyline>
+        <bm-polyline v-for="path in pathes" :path="path.datas" stroke-color="red" :stroke-weight="2"></bm-polyline>
       </baidu-map>
 
 <!--         <button type="button" name="button" v-on:click="toggleVisible">toggle first marker</button>
@@ -72,7 +73,7 @@ export default {
           api.getDeviceData(v , query, function (err, data) {
             var lons = _.last(_.filter(data, {type:'lon'})).data;
             var lats = _.last(_.filter(data, {type:'lat'})).data;
-            
+
             for(var i=0; i<lons.length;++i){
               pDatas.push({lng: lons[i].value, lat: lats[i].value});
             }

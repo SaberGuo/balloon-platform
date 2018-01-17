@@ -91,12 +91,38 @@ export default {
         }
     }),
     'lat': _.merge({}, defaultOption, {
-        // title: {
-        //     text: '速度'
-        // },
+         title: {
+             text: '纬度'
+         },
         yAxis: {
             title_v: {
                 text: '°'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'lon': _.merge({}, defaultOption, {
+         title: {
+             text: '经度'
+         },
+        yAxis: {
+            title_v: {
+                text: '°'
+            },
+            title: {
+                text: ''
+            },
+        }
+    }),
+    'alt': _.merge({}, defaultOption, {
+         title: {
+             text: '高度'
+         },
+        yAxis: {
+            title_v: {
+                text: 'm'
             },
             title: {
                 text: ''

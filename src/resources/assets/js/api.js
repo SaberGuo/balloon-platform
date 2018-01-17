@@ -55,7 +55,11 @@ export default {
             if (v.type == 'image') return;
             var type = v.type;
 
+
+
             charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
+
+
             var serieData =  _.sortBy(_.map(v.data, function (dd) {
                         return [moment(dd.ts).toDate().getTime(), parseFloat(dd.value)];
                     }), function(n){return n[0];});
