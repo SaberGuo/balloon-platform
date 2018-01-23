@@ -4,7 +4,7 @@
       <label>设备：</label><select class="form-control" v-model="selectedDevice">
       <option v-for="device in devices" :value="device" >{{ device.name }}</option>
     </select>
-  </div>
+    </div>
   <div class="panel panel-default panel-primary">
     <div class="panel-heading" >
         <h3 class="panel-title">基本信息</h3>
@@ -84,16 +84,54 @@
       }
     },
     methods: {
-      loadDeviceData (device) {
+      load: function(){
+        var query = {
+          start_at: moment().subtract(7,'day').format('YYYY-MM-DD'),
+          end_at: moment().add(1,'day').format('YYYY-MM-DD'),
+          limit: 100,
+        };
+        var self = this;
+        api.getDeviceData(this.selectedDevice , query, function (err, data) {
+          _.forIn(data, function(v){
+            var lastdata = _.last(v.data);
+            if(_.find(self.datas,function(d){
+              return d.key == lastdata.key;
+            })){
+                _.set(_.find(self.datas, function(d){
+                  return d.key == lastdata.key;
+                }), 'value', lastdata.value);
+            }
+            else{
+                  self.datas.push( lastdata);
+            }
+            var tmpdata = [];
+            if(_.has(self.charts, lastdata.type)){
+              let ct = self.$refs.highcharts;
+              //tmpdata = _.clone(_.findLast(self.charts[lastdata.type].series,{'name': v.name}).data, false);
+              //tmpdata.push([moment(lastdata.ts).toDate().getTime(), parseFloat(lastdata.value)]);
+              //tmpdata = ct[0].chart.series[0].data;
+              //tmpdata.push([moment(lastdata.ts).toDate().getTime(), parseFloat(lastdata.value)]);
+              ct[0].chart.series[0].addPoint([moment(lastdata.ts).toDate().getTime(), parseFloat(lastdata.value)]);
+              //console.log(tmpdata);
+              //console.log(ct);
+              //_.findLast(self.charts[lastdata.type].series,{'name': v.name}).data.push([moment(lastdata.ts).toDate().getTime(), parseFloat(lastdata.value)]);
+            }
+          });
+        });
+
+      },
+      loadDeviceData: function(device) {
         var query = {
           start_at: moment().subtract(7,'day').format('YYYY-MM-DD'),
           end_at: moment().add(1,'day').format('YYYY-MM-DD'),
           limit: 10000,
         };
         var self = this;
+        self.datas = [];
         api.getDeviceData(device , query, function (err, data) {
           _.forIn(data, function(v){
             self.datas.push( _.last(v.data));
+
           });
           self.charts = api.data2charts(data);
           self.images = _.filter(data, {type:'image'});
@@ -106,6 +144,8 @@
         this.devices = res.body;
         this.selectedDevice = _.findLast(this.devices,function(d){return d.id == deviceId;});
       });
+      var self = this;
+      this.intervalLoad = setInterval(function(){self.load();}, 5000);
     }
   };
 

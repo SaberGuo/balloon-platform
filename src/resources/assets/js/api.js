@@ -7,12 +7,13 @@ function data2lists (device, data) {
 
         _.forIn(item.data, function(value, key) {
             item.data[key] = _.assign(item.data[key], config[key], {
-                ts: item.ts
+                ts: item.ts,
+                key: key,
             });
 
             if(item.data[key].type){
               if (!keys[key]) {
-                  keys[key] = {data:[],name: device.name + ' - ' +item.data[key].type};
+                  keys[key] = {data:[], name: device.name + ' - ' +item.data[key].type};
               }
               keys[key].data.push(item.data[key]);
               keys[key].type = item.data[key].type || 'temp';
@@ -52,7 +53,8 @@ export default {
         var self = this;
         var charts = {};
         _.forIn(data, function (v) {
-            if (v.type == 'image' || v.type == 'lon' || v.type == 'lat') return;
+            if (v.type == 'image' || v.type == 'lon' || v.type == 'lat'
+            || v.type == 'single' || v.type == 'status') return;
             var type = v.type;
 
             charts[type] = charts[type] || _.cloneDeep(defaultOptions[type]);
