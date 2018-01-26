@@ -39,14 +39,14 @@ export default {
   created: function () {
     this.load();
     let that  = this;
-    this.intervalLoad = setInterval(function(){that.load();}, 60000);
+    this.intervalLoad = setInterval(function(){that.refresh();}, 6000);
   },
   watch: {
     '$route': 'load',
   },
   methods: {
-    load: function () {
-  	var self = this;
+    refresh: function(){
+      var self = this;
       this.$http.get('/api/device/').then(function (res) {
         var devices = res.body;
         this.markers = _.map(devices, function (v) {
@@ -64,24 +64,66 @@ export default {
           };
         });
         var query = {
-          start_at: moment().subtract(7,'day').format('YYYY-MM-DD'),
+          start_at: moment().format('YYYY-MM-DD'),
+          end_at: moment().add(1,'day').format('YYYY-MM-DD'),
+          limit: 10000,
+        };
+        _.map(self.pathes, function(p){
+          api.getDeviceData(p.device , query, function (err, data) {
+            if(data.length > 0){
+              var lon = _.last(_.last(_.filter(data, {type:'lon'})).data);
+              var lat = _.last(_.last(_.filter(data, {type:'lat'})).data);
+              if(p.datas.length>0 && lon!=_.last(p.datas).lng && lat!=_.last(p.datas).lat){
+                p.datas.push({lng: lon.value, lat: lat.value});
+              }
+            }
+
+          });
+        });
+      });
+    },
+    load: function () {
+  	  var self = this;
+      this.$http.get('/api/device/').then(function (res) {
+        var devices = res.body;
+        this.markers = _.map(devices, function (v) {
+          return {
+            position: {lng:v.lon, lat:v.lat},
+            events: {
+              click: () => {
+                self.$router.push('/device/'+v.id+'/dashboard');
+                // self.$router.push('/station');
+              },
+            },
+            visible: true,
+            // content: 'xxxx',
+            title: "名称："+v.name+"\nsn:"+v.sn+"\n经度："+v.lon+"\n纬度："+v.lat+"\n高度:"+v.alt,
+          };
+        });
+        var query = {
+          start_at: moment().subtract(10,'day').format('YYYY-MM-DD'),
           end_at: moment().add(1,'day').format('YYYY-MM-DD'),
           limit: 10000,
         };
         this.pathes = _.map(devices, function(v){
           var pDatas = [];
-          api.getDeviceData(v , query, function (err, data) {
-            var lons = _.last(_.filter(data, {type:'lon'})).data;
-            var lats = _.last(_.filter(data, {type:'lat'})).data;
+          api.getDeviceData(v, query, function (err, data) {
+            console.log(data);
+            if(data.length>0){
+              var lons = _.last(_.filter(data, {type:'lon'})).data;
+              var lats = _.last(_.filter(data, {type:'lat'})).data;
 
-            for(var i=0; i<lons.length;++i){
-              pDatas.push({lng: lons[i].value, lat: lats[i].value});
+              for(var i=0; i<lons.length;++i){
+                pDatas.push({lng: lons[i].value, lat: lats[i].value});
+              }
             }
+
 
           });
 
           console.log(pDatas);
           return {
+            device: v,
             datas: pDatas
           };
         });
