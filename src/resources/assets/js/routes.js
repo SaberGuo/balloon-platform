@@ -7,7 +7,7 @@ import header from './components/header.vue'
 
 const routes=[{
   path: '/',
-  redirect: '/map'
+  redirect: '/device/1/detail'
 },
  {
   path: '/map',
