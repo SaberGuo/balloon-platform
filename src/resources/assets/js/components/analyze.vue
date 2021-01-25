@@ -29,7 +29,6 @@
       </form>
     </div>
     <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
-    <gallery :images="images"></gallery>
   </div>
 </template>
 
