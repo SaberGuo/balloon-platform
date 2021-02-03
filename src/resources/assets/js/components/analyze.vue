@@ -27,7 +27,11 @@
         </div>
       </form>
     </div>
+<<<<<<< HEAD
     <highcharts v-for="chart in charts" :options="chart" :key="chart" ref="highcharts"></highcharts>
+=======
+    <highcharts v-for="chart in charts" :options="chart" ref="highcharts"></highcharts>
+>>>>>>> 7ba00aa9d209a3d1486f35f358e9ee316f0bf9f0
   </div>
 </template>
 
