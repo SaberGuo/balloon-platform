@@ -142,13 +142,13 @@ export default {
             },
         }
     }),
-    'temperature': _.merge({}, defaultOption, {
+    'value': _.merge({}, defaultOption, {
         // title: {
         //     text: '温度'
         // },
         yAxis: {
             title_v: {
-                text: '摄氏度'
+                text: ''
             },
             title: {
                 text: ''

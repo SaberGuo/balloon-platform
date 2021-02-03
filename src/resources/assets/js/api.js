@@ -1,22 +1,22 @@
 import defaultOptions from './chartOptions'
 import translations from './translations'
-function data2lists (device, data) {
+function data2lists (device, data, config) {
     var keys = {};
     _.forIn(data, function(item) {
-        var config = item.config ? item.config.data : {};
-
+        //var config = item.config ? item.config.data : {};
         _.forIn(item.data, function(value, key) {
             item.data[key] = _.assign(item.data[key], config[key], {
-                ts: item.ts,
+                ts: item.created_at,
                 key: key,
             });
 
             if(item.data[key].type){
               if (!keys[key]) {
-                  keys[key] = {data:[], name: device.name + ' - ' +item.data[key].type};
+                  keys[key] = {data:[], name: device.name + ' - ' +item.data[key].name};
               }
               keys[key].data.push(item.data[key]);
               keys[key].type = item.data[key].type || 'temp';
+              keys[key].key = key;
             }
 
         });
@@ -29,18 +29,18 @@ function data2lists (device, data) {
     return keys;
 };
 export default {
-    getDeviceData(devices, query, callback) {
+    getDeviceData(devices, query, config,callback) {
         if (!_.isArray(devices)) devices = [devices];
         query = query || {}
-        query.with = 'config';
-        query.limit = 10000;
+        //query.with = 'config';
+        query.limit = 10;
         var options = {
             params: query,
         }
         var requests = _.map(devices, function (device) {
             var uri = '/api/device/'+device.id+'/data';
             return Vue.http.get(uri, options).then(function (res) {
-                return _.values(data2lists(device, res.body));
+                return _.values(data2lists(device, res.body, config));
             });
         })
         $.when.apply(null, requests).then(function () {

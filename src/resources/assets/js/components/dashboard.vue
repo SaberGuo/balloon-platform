@@ -86,14 +86,16 @@
     methods: {
       load: function(){
         var query = {
-          start_at: moment().subtract(7,'day').format('YYYY-MM-DD'),
+          start_at: moment().subtract(2,'day').format('YYYY-MM-DD'),
           end_at: moment().add(1,'day').format('YYYY-MM-DD'),
-          limit: 100,
+          limit: 10,
         };
         var self = this;
-        api.getDeviceData(this.selectedDevice , query, function (err, data) {
+        api.getDeviceData(this.selectedDevice, query, function (err, data) {
+          console.log(data);
           _.forIn(data, function(v){
             var lastdata = _.last(v.data);
+             console.log(lastdata);
             if(_.find(self.datas,function(d){
               return d.key == lastdata.key;
             })){

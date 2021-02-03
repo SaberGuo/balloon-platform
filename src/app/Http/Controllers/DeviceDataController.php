@@ -22,15 +22,16 @@ class DeviceDataController extends Controller
      */
     public function index($device_id, Request $req)
     {
-        $res = $this->_index(['device_id', '=', $device_id], function (&$items) use ($req) {
-            $items->orderBy('ts', 'asc')->with('config');
-            if ($req->input('start_at')) {
-                $items->where('ts', '>=', $req->input('start_at'));
-            }
-            if ($req->input('end_at')) {
-                $items->where('ts', '<=', $req->input('end_at'));
-            }
-        });
+        $res = DeviceData::where('created_at','>',$req->input('start_at'))->where('created_at','<',$req->input('end_at'))->where('device_id','=',$device_id)->limit(10)->get();
+        //$res = $this->_index(['device_id', '=', $device_id], function (&$items) use ($req) {
+        //    $items->orderBy('created_at', 'asc');
+        //    if ($req->input('start_at')) {
+        //        $items->where('created_at', '>=', $req->input('start_at'));
+        //    }
+        //    if ($req->input('end_at')) {
+        //        $items->where('created_at', '<=', $req->input('end_at'));
+        //    }
+       // });
         // foreach ($res['items'] as $item) {
         //     if (!isset($item->config)) continue;
         //     $config = $item->config->data;

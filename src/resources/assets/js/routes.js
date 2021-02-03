@@ -2,14 +2,14 @@
 import dashboard from './components/dashboard.vue'
 import devices from './components/devices.vue'
 import analyze from './components/analyze.vue'
-import map from './components/map.vue'
+//import map from './components/map.vue'
 import header from './components/header.vue'
 
 const routes=[{
   path: '/',
-  redirect: '/device/1/detail'
+  redirect: '/detail'
 },
- {
+ /*{
   path: '/map',
   components: {
     default: map,
@@ -18,7 +18,8 @@ const routes=[{
   props: {
     header: {title: '站点地图'},
   }
-}, {
+},*/
+{
   path: '/device/:device/dashboard',
   components: {
     default: dashboard,
@@ -49,7 +50,7 @@ const routes=[{
   }
 },
 {
-  path: 'device/:device/detail',
+  path: '/detail',
   components: {
     default: require('./components/analyze.vue'),
     header: header,
